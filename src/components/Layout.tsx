@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { ArrowLeftRight, ChevronLeft, ClipboardList, FileSpreadsheet, History, List, UserRound } from 'lucide-react';
+import { ArrowLeftRight, ChevronLeft, ClipboardList, Eye, FileSpreadsheet, History, List, UserRound } from 'lucide-react';
 import { useT } from '../i18n/i18n';
 import type { Key } from '../i18n/i18n';
+import { VISIONS, useVision } from '../lib/colorVision';
 import { fmtDateTime } from '../lib/format';
 import { useStore } from '../store/store';
 import { Snackbar } from './ui';
@@ -33,6 +34,10 @@ export function Layout() {
             </NavLink>
           ))}
         </nav>
+        <NavLink to="/vision" className={({ isActive }) => `navlink${isActive ? ' active' : ''}`}>
+          <Eye size={22} aria-hidden />
+          Colour check
+        </NavLink>
         {state.sheetUpdatedAt && (
           <div className="side__foot">
             {t('sheet.lastUpdated', { date: fmtDateTime(state.sheetUpdatedAt), name: state.sheetUpdatedBy ?? '' })}
@@ -61,6 +66,8 @@ export function Layout() {
 export function Page({ title, back, actions, children }: { title: ReactNode; back?: string | true; actions?: ReactNode; children: ReactNode }) {
   const nav = useNavigate();
   const { t } = useT();
+  const { vision } = useVision();
+  const sim = vision === 'normal' ? null : VISIONS.find((v) => v.id === vision)!.label;
   return (
     <>
       <header className="header">
@@ -73,6 +80,10 @@ export function Page({ title, back, actions, children }: { title: ReactNode; bac
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</span>
         </h1>
         {actions}
+        <NavLink to="/vision" className={`hbtn${sim ? ' hbtn--sim' : ''}`} aria-label={sim ? `Colour check: viewing as ${sim}` : 'Colour check'}>
+          <Eye size={20} aria-hidden />
+          {sim && <span className="hbtn__text">{sim}</span>}
+        </NavLink>
         <span className="hbtn" aria-label="Signed in as Admin">
           <UserRound size={20} aria-hidden />
           <span className="hbtn__text">Admin</span>

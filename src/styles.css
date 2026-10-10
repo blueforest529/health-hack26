@@ -254,3 +254,14 @@ h1, h2, h3 { margin: 0; }
 @media (max-width: 899px) { .hbtn__show-sm { display: inline; } }
 span.hbtn { cursor: default; }
 span.hbtn:hover { background: transparent; }
+
+/* ---------- Colour check ---------- */
+.cvgrid { display: flex; flex-direction: column; }
+.cvgrid__row { display: grid; grid-template-columns: 1fr; gap: var(--s2); padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); }
+.cvgrid__row:last-child { border-bottom: 0; }
+.cvgrid__label { display: flex; flex-direction: column; font-size: 15px; line-height: 20px; }
+.cvgrid__badges { display: flex; flex-wrap: wrap; gap: var(--s2); }
+@media (min-width: 720px) {
+  .cvgrid__row { grid-template-columns: 220px 1fr; align-items: center; }
+}
+.hbtn--sim { border-color: var(--brand-primary); background: var(--brand-tint); }
